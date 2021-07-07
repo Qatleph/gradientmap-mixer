@@ -1,0 +1,23 @@
+{
+  "name": "gradientmap-mixer",
+  "version": "0.1.0",
+  "description": "Created for efficient gradient map composition for a large number of images.  \r (DeepL)",
+  "main": "index.js",
+  "dependencies": {
+    "jszip": "^3.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keikouto2001/gradientmap-mixer.git"
+  },
+  "author": "keikouto2001",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/keikouto2001/gradientmap-mixer/issues"
+  },
+  "homepage": "https://github.com/keikouto2001/gradientmap-mixer#readme"
+}
