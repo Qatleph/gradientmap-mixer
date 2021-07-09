@@ -2,9 +2,17 @@
     <head>
         <title>GradientMap Mixer</title>
         <meta charset="UTF-8"/>
-        <script type="text/javascript" src="script/main.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="public/js/bundle.js" charset="UTF-8"></script>
     </head>
     <body>
-        <p>hoge</p>
+        <h3>Image file(s)</h3>
+        <input id="source-image" type="file" accept="image/*" multiple/>
+        
+        <h3>Output image(s)</h3>
+        <canvas id="composite-preview"></canvas>
+        
+        <h3>Output</h3>
+        <button id="output-result">Mix & Save</button>
+        <button id="output-img">loadtest</button>
     </body>
 </html>
