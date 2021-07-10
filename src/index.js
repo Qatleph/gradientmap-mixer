@@ -2,7 +2,7 @@
  * Return object asigned image files with name keys.
  * @returns Promise<Object{'filename': img, ...}>
  */
-async function getLoadedImages(){
+async function getAsyncImagesObject(){
     let result = {};
     let source_files = document.getElementById('source-image').files;
     
@@ -32,6 +32,6 @@ function readImageFile(file){
 window.addEventListener('load', () => {
     document.getElementById('output-result').addEventListener('click', saveResultFile);
     document.getElementById('output-img').addEventListener('click', () => {
-        getLoadedImages().then((data) => window.loaded_images = data);
+        getAsyncImagesObject().then((data) => window.loaded_images = data);
     });
 });
