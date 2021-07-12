@@ -1,3 +1,15 @@
+async function getArraybuffer_fromCanvas(canvas){
+    return new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+            let reader = new FileReader();
+            reader.readAsArrayBuffer(blob);
+            reader.addEventListener('load', () => {
+                resolve(reader.result);
+            });
+        });
+    });
+}
+
 // test function
 function getDrewCanvas(image){
     let canvas = document.createElement('canvas');
