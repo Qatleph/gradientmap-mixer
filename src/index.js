@@ -1,3 +1,50 @@
+import JSZip, { file } from 'jszip';
+
+// とりあえず画像が単一ならそのまま、複数ならzip化してダウンロードさせるとこまで
+async function saveResultFile(){
+    let target_object = window.input_images;
+    let filename_keys = Object.keys(target_object);
+    
+    if(filename_keys.length){
+        if(filename_keys.length > 1){
+            let zip = new JSZip();
+            
+            for(let i = 0; i < filename_keys.length; ++i){
+                let canvas_tosave = getDrewCanvas(target_object[filename_keys[i]]);
+                let imagefile = await getArraybuffer_fromCanvas(canvas_tosave);
+                zip.file(filename_keys[i], imagefile, {binary: true});
+            }
+            
+            zip.generateAsync({type:"blob"}).then((content) => {
+                let zipurl = URL.createObjectURL(content);
+                let save_link = document.createElement('a');
+                
+                save_link.download = 'result.zip';
+                save_link.href = zipurl;
+                document.body.appendChild(save_link);
+                save_link.click();
+                
+                // NOTE: データの解放。ダウンロード前に解放されるケースがあるらしいので、一応遅らせる
+                save_link.remove();
+                setTimeout(() => {
+                    URL.revokeObjectURL(zipurl);
+                }, 1e4);
+            });
+        } else {
+            let save_link = document.createElement('a');
+            save_link.download = filename_keys[0];
+            save_link.href = target_object[filename_keys[0]].src;
+            document.body.appendChild(save_link);
+            save_link.click();
+            
+            save_link.remove();
+            setTimeout(() => {
+                URL.revokeObjectURL(save_link.href);
+            }, 1e4);
+        }
+    }
+}
+
 async function getArraybuffer_fromCanvas(canvas){
     return new Promise((resolve) => {
         canvas.toBlob((blob) => {
@@ -30,8 +77,9 @@ async function getAsyncImagesObject(){
     
     if(source_files.length !== 0) {
         for (let i = 0; i < source_files.length; i++) {
+            let filename = source_files[i].name
             let loaded = await readImageFile(source_files[i]);
-            result[source_files[i].name] = loaded;
+            result[filename] = loaded;
         }
     }
     return result;
@@ -54,6 +102,6 @@ function readImageFile(file){
 window.addEventListener('load', () => {
     document.getElementById('output-result').addEventListener('click', saveResultFile);
     document.getElementById('output-img').addEventListener('click', () => {
-        getAsyncImagesObject().then((data) => window.loaded_images = data);
+        getAsyncImagesObject().then((data) => window.input_images = data);
     });
 });
