@@ -1,3 +1,13 @@
+// test function
+function getDrewCanvas(image){
+    let canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    
+    canvas.getContext('2d').drawImage(image, 0, 0);
+    return canvas;
+}
+
 /**
  * Return object asigned image files with name keys.
  * @returns Promise<Object{'filename': img, ...}>
