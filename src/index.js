@@ -1,5 +1,26 @@
 import JSZip, { file } from 'jszip';
 
+async function updateFilelist(){
+    await getAsyncImagesObject().then((data) => window.input_images = data);
+    if(window.input_images){
+        let source_images_keys = Object.keys(window.input_images);
+        let target_element = document.getElementById('preview-input-image');
+        
+        while(target_element.firstChild){
+            element.removeChild(element.firstChild);
+        }
+        
+        console.log(source_images_keys)
+        for (let i = 0; i < source_images_keys.length; i++) {
+            let list_option = document.createElement('option');
+            list_option.value = source_images_keys[i];
+            list_option.textContent = source_images_keys[i];
+        
+            target_element.appendChild(list_option);
+        }
+    }
+}
+
 // とりあえず画像が単一ならそのまま、複数ならzip化してダウンロードさせるとこまで
 async function saveResultFile(){
     let target_object = window.input_images;
@@ -100,8 +121,6 @@ function readImageFile(file){
 }
 
 window.addEventListener('load', () => {
+    document.getElementById('source-image').addEventListener('change', updateFilelist);
     document.getElementById('output-result').addEventListener('click', saveResultFile);
-    document.getElementById('output-img').addEventListener('click', () => {
-        getAsyncImagesObject().then((data) => window.input_images = data);
-    });
 });

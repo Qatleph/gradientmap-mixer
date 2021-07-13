@@ -7,12 +7,14 @@
     <body>
         <h3>Image file(s)</h3>
         <input id="source-image" type="file" accept="image/*" multiple/>
+        <div>
+            <select id="preview-input-image" size="10" style="width: 150px;"></select>
+        </div>
         
         <h3>Output image(s)</h3>
         <canvas id="composite-preview"></canvas>
         
         <h3>Output</h3>
         <button id="output-result">Mix & Save</button>
-        <button id="output-img">loadtest</button>
     </body>
 </html>
