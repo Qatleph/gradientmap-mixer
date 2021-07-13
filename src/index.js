@@ -10,7 +10,6 @@ async function updateFilelist(){
             element.removeChild(element.firstChild);
         }
         
-        console.log(source_images_keys)
         for (let i = 0; i < source_images_keys.length; i++) {
             let list_option = document.createElement('option');
             list_option.value = source_images_keys[i];
@@ -19,6 +18,16 @@ async function updateFilelist(){
             target_element.appendChild(list_option);
         }
     }
+}
+
+function updatePreviewResult(){
+    let target_canvas = document.getElementById('composite-preview');
+    let source_selection = document.getElementById('preview-input-image').value;
+    let source_image = window.input_images[source_selection];
+    
+    target_canvas.width = source_image.width;
+    target_canvas.height = source_image.height;
+    target_canvas.getContext('2d').drawImage(source_image, 0, 0);
 }
 
 // とりあえず画像が単一ならそのまま、複数ならzip化してダウンロードさせるとこまで
@@ -122,5 +131,6 @@ function readImageFile(file){
 
 window.addEventListener('load', () => {
     document.getElementById('source-image').addEventListener('change', updateFilelist);
+    document.getElementById('preview-input-image').addEventListener('change', updatePreviewResult);
     document.getElementById('output-result').addEventListener('click', saveResultFile);
 });
