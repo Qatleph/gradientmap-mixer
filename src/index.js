@@ -7,7 +7,7 @@ async function updateFilelist(){
         let target_element = document.getElementById('preview-input-image');
         
         while(target_element.firstChild){
-            element.removeChild(element.firstChild);
+            target_element.removeChild(target_element.firstChild);
         }
         
         for (let i = 0; i < source_images_keys.length; i++) {
@@ -27,7 +27,29 @@ function updatePreviewResult(){
     
     target_canvas.width = source_image.width;
     target_canvas.height = source_image.height;
-    target_canvas.getContext('2d').drawImage(source_image, 0, 0);
+    
+    let context = target_canvas.getContext('2d');
+    context.drawImage(source_image, 0, 0);
+    
+    let new_imagedata = context.getImageData(0, 0, source_image.width, source_image.height);
+    new_imagedata = getGrayscaledImageData(new_imagedata);
+    context.putImageData(new_imagedata, 0, 0);
+}
+
+function getGrayscaledImageData(imagedata){
+    // NOTE: imageDataのピクセルは[R_1,G_1,B_1,A_1,R_2,...]という形の一次元配列
+    // なので、for文のindex変数は毎回+4(Alphaを無視)している
+    for(let i = 0; i < imagedata.data.length; i += 4){
+        let r = imagedata.data[i];
+        let g = imagedata.data[i+1];
+        let b = imagedata.data[i+2];
+        let grayscale = r * 0.299 + g * 0.587 + b * 0.114;
+        imagedata.data[i] = grayscale;
+        imagedata.data[i+1] = grayscale;
+        imagedata.data[i+2] = grayscale;
+    }
+    
+    return imagedata;
 }
 
 // とりあえず画像が単一ならそのまま、複数ならzip化してダウンロードさせるとこまで
