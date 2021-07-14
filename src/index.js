@@ -52,6 +52,24 @@ function getGrayscaledImageData(imagedata){
     return imagedata;
 }
 
+function getGradientMappedImageData(imagedata){
+    let gradient = document.getElementById('preview-input-gradation');
+    let gradient_data = gradient.getContext('2d').getImageData(0, 0, gradient.width, gradient.height);
+    
+    for(let i = 0; i < imagedata.data.length; i += 4){
+        let v = Math.max(imagedata.data[i], imagedata.data[i+1], imagedata.data[i+2]);
+        let new_r = gradient_data.data[v * 4];
+        let new_g = gradient_data.data[v * 4 + 1];
+        let new_b = gradient_data.data[v * 4 + 2];
+        
+        imagedata.data[i] = new_r;
+        imagedata.data[i+1] = new_g;
+        imagedata.data[i+2] = new_b;
+    }
+    
+    return imagedata;
+}
+
 function updateGradationPreview(){
     let target_canvas = document.getElementById('preview-input-gradation');
     let context = target_canvas.getContext('2d');
