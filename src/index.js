@@ -211,6 +211,11 @@ function readImageFile(file){
 
 window.addEventListener('load', () => {
     updateGradationPreview();
+    let color_stops = document.getElementsByClassName('gradient-color');
+    for(let i = 0; i < color_stops.length; ++i){
+        color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updateGradationPreview);
+        color_stops[i].getElementsByClassName('color-stop-point')[0].addEventListener('input', updateGradationPreview);
+    }
     document.getElementById('source-image').addEventListener('change', updateFilelist);
     document.getElementById('preview-input-image').addEventListener('change', updatePreviewResult);
     document.getElementById('output-result').addEventListener('click', saveResultFile);
