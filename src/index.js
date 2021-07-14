@@ -52,6 +52,28 @@ function getGrayscaledImageData(imagedata){
     return imagedata;
 }
 
+/**
+ * Get color stop parameters from input area
+ * @returns Array[ Object {color: "#hex", point: number}, ... ]
+ */
+function getGradationColorStops(){
+    let gradient_parameters = document.getElementsByClassName('gradient-color');
+    let result = [];
+    
+    for(let i = 0; i < gradient_parameters.length; ++i){
+        let color = gradient_parameters[i].getElementsByClassName('color-stop')[0].value;
+        let point = gradient_parameters[i].getElementsByClassName('color-stop-point')[0].value;
+        
+        let colorstop = {
+            color: color,
+            point: parseFloat(point)
+        };
+        result.push(colorstop);
+    }
+    
+    return result;
+}
+
 // とりあえず画像が単一ならそのまま、複数ならzip化してダウンロードさせるとこまで
 async function saveResultFile(){
     let target_object = window.input_images;
