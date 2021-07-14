@@ -4,7 +4,7 @@ async function updateFilelist(){
     await getAsyncImagesObject().then((data) => window.input_images = data);
     if(window.input_images){
         let source_images_keys = Object.keys(window.input_images);
-        let target_element = document.getElementById('preview-input-image');
+        let target_element = document.getElementById('input-preview');
         
         while(target_element.firstChild){
             target_element.removeChild(target_element.firstChild);
@@ -22,7 +22,7 @@ async function updateFilelist(){
 
 function updatePreviewResult(){
     let target_canvas = document.getElementById('composite-preview');
-    let source_selection = document.getElementById('preview-input-image').value;
+    let source_selection = document.getElementById('input-preview').value;
     let source_image = window.input_images[source_selection];
     
     target_canvas.width = source_image.width;
@@ -37,6 +37,10 @@ function updatePreviewResult(){
     context.putImageData(applied_gradientmap, 0, 0);
 }
 
+/**
+ * @param imagedata imageData that you want to grayscale.
+ * @returns imageData
+ */
 function getGrayscaledImageData(imagedata){
     // NOTE: imageDataのピクセルは[R_1,G_1,B_1,A_1,R_2,...]という形の一次元配列
     // なので、for文のindex変数は毎回+4(Alphaを無視)している
@@ -54,7 +58,7 @@ function getGrayscaledImageData(imagedata){
 }
 
 function getGradientMappedImageData(imagedata){
-    let gradient = document.getElementById('preview-input-gradation');
+    let gradient = document.getElementById('input-gradation');
     let gradient_data = gradient.getContext('2d').getImageData(0, 0, gradient.width, gradient.height);
     
     for(let i = 0; i < imagedata.data.length; i += 4){
@@ -71,12 +75,12 @@ function getGradientMappedImageData(imagedata){
     return imagedata;
 }
 
-function updateGradationPreview(){
-    let target_canvas = document.getElementById('preview-input-gradation');
+function updateGradientPreview(){
+    let target_canvas = document.getElementById('input-gradation');
     let context = target_canvas.getContext('2d');
     
     let gradient = context.createLinearGradient(0, 0, 256, 0);
-    let color_stop = getGradationColorStops();
+    let color_stop = getGradientColorStops();
     
     for(let i = 0; i < color_stop.length; ++i){
         let color = color_stop[i].color;
@@ -92,7 +96,7 @@ function updateGradationPreview(){
  * Get color stop parameters from input area
  * @returns Array[ Object {color: "#hex", point: number}, ... ]
  */
-function getGradationColorStops(){
+function getGradientColorStops(){
     let gradient_parameters = document.getElementsByClassName('gradient-color');
     let result = [];
     
@@ -210,13 +214,14 @@ function readImageFile(file){
 }
 
 window.addEventListener('load', () => {
-    updateGradationPreview();
+    updateGradientPreview();
     let color_stops = document.getElementsByClassName('gradient-color');
     for(let i = 0; i < color_stops.length; ++i){
-        color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updateGradationPreview);
-        color_stops[i].getElementsByClassName('color-stop-point')[0].addEventListener('input', updateGradationPreview);
+        color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updateGradientPreview);
+        color_stops[i].getElementsByClassName('color-stop-point')[0].addEventListener('input', updateGradientPreview);
     }
+    
     document.getElementById('source-image').addEventListener('change', updateFilelist);
-    document.getElementById('preview-input-image').addEventListener('change', updatePreviewResult);
+    document.getElementById('input-preview').addEventListener('change', updatePreviewResult);
     document.getElementById('output-result').addEventListener('click', saveResultFile);
 });
