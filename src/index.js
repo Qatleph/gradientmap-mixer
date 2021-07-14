@@ -52,6 +52,23 @@ function getGrayscaledImageData(imagedata){
     return imagedata;
 }
 
+function updateGradationPreview(){
+    let target_canvas = document.getElementById('preview-input-gradation');
+    let context = target_canvas.getContext('2d');
+    
+    let gradient = context.createLinearGradient(0, 0, 100, 0);
+    let color_stop = getGradationColorStops();
+    
+    for(let i = 0; i < color_stop.length; ++i){
+        let color = color_stop[i].color;
+        let point = color_stop[i].point;
+        gradient.addColorStop(point, color);
+    }
+    
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 100, 1);
+}
+
 /**
  * Get color stop parameters from input area
  * @returns Array[ Object {color: "#hex", point: number}, ... ]
@@ -174,6 +191,7 @@ function readImageFile(file){
 }
 
 window.addEventListener('load', () => {
+    updateGradationPreview();
     document.getElementById('source-image').addEventListener('change', updateFilelist);
     document.getElementById('preview-input-image').addEventListener('change', updatePreviewResult);
     document.getElementById('output-result').addEventListener('click', saveResultFile);
