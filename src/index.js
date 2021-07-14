@@ -56,7 +56,7 @@ function updateGradationPreview(){
     let target_canvas = document.getElementById('preview-input-gradation');
     let context = target_canvas.getContext('2d');
     
-    let gradient = context.createLinearGradient(0, 0, 100, 0);
+    let gradient = context.createLinearGradient(0, 0, 256, 0);
     let color_stop = getGradationColorStops();
     
     for(let i = 0; i < color_stop.length; ++i){
@@ -66,7 +66,7 @@ function updateGradationPreview(){
     }
     
     context.fillStyle = gradient;
-    context.fillRect(0, 0, 100, 1);
+    context.fillRect(0, 0, 256, 1);
 }
 
 /**
