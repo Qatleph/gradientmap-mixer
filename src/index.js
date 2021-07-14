@@ -31,9 +31,10 @@ function updatePreviewResult(){
     let context = target_canvas.getContext('2d');
     context.drawImage(source_image, 0, 0);
     
-    let new_imagedata = context.getImageData(0, 0, source_image.width, source_image.height);
-    new_imagedata = getGrayscaledImageData(new_imagedata);
-    context.putImageData(new_imagedata, 0, 0);
+    let current_imagedata = context.getImageData(0, 0, source_image.width, source_image.height);
+    let grayscaled_imagedata = getGrayscaledImageData(current_imagedata);
+    let applied_gradientmap = getGradientMappedImageData(grayscaled_imagedata);
+    context.putImageData(applied_gradientmap, 0, 0);
 }
 
 function getGrayscaledImageData(imagedata){
