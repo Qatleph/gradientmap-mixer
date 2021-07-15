@@ -225,7 +225,7 @@ function createColorStopElement(){
     let input_checkbox = document.createElement('input');
     let property_checkbox = {
         type: 'checkbox',
-        className: 'item'
+        className: 'selection-remove'
     };
     Object.assign(input_checkbox, property_checkbox);
     
@@ -267,6 +267,24 @@ function createColorStopElement(){
     return result;
 }
 
+function removeSelectedColorStop(){
+    let target_root = document.getElementById('gradient-parameter');
+    
+    let color_stops = target_root.getElementsByClassName('gradient-color');
+    for(let i = 0, element_length = color_stops.length; i < element_length; ++i){
+        let checkbox = color_stops[i].getElementsByClassName('selection-remove');
+        if(checkbox.length > 0){
+            let remove_flag = checkbox[0].checked;
+            
+            if(remove_flag){
+                target_root.removeChild(color_stops[i]);
+                --i;
+                --element_length;
+            }
+        }
+    }
+}
+
 window.addEventListener('load', () => {
     updateGradientPreview();
     
@@ -288,9 +306,12 @@ window.addEventListener('load', () => {
         let new_color_stop = createColorStopElement();
         initGradientElements(new_color_stop);
         document.getElementById('gradient-parameter').appendChild(new_color_stop);
-        updateGradientPreview();
+        updatePreviews();
     });
-    document.getElementById('remove-colorstop').addEventListener('click', () => {});
+    document.getElementById('remove-colorstop').addEventListener('click', () => {
+        removeSelectedColorStop();
+        updatePreviews();
+    });
     
     document.getElementById('source-image').addEventListener('change', updateFilelist);
     document.getElementById('input-preview').addEventListener('change', updatePreviewResult);
