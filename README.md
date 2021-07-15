@@ -1,3 +1,6 @@
+# Link
+https://keikouto2001.github.io/gradientmap-mixer/
+
 # 概要
 非同期処理の練習用。  
 大量の画像ファイルに対して、グラデーションマップを効率的に合成する為に作りました。
