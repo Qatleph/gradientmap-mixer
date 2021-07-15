@@ -25,16 +25,7 @@ function updatePreviewResult(){
     let source_selection = document.getElementById('input-preview').value;
     let source_image = window.input_images[source_selection];
     
-    target_canvas.width = source_image.width;
-    target_canvas.height = source_image.height;
-    
-    let context = target_canvas.getContext('2d');
-    context.drawImage(source_image, 0, 0);
-    
-    let current_imagedata = context.getImageData(0, 0, source_image.width, source_image.height);
-    let grayscaled_imagedata = getGrayscaledImageData(current_imagedata);
-    let applied_gradientmap = getGradientMappedImageData(grayscaled_imagedata);
-    context.putImageData(applied_gradientmap, 0, 0);
+    if(source_image) getMixedCanvas(source_image, target_canvas);
 }
 
 /**
@@ -124,7 +115,7 @@ async function saveResultFile(){
             let zip = new JSZip();
             
             for(let i = 0; i < filename_keys.length; ++i){
-                let canvas_tosave = getDrewCanvas(target_object[filename_keys[i]]);
+                let canvas_tosave = getMixedCanvas(target_object[filename_keys[i]]);
                 let imagefile = await getArraybuffer_fromCanvas(canvas_tosave);
                 zip.file(filename_keys[i], imagefile, {binary: true});
             }
@@ -171,13 +162,19 @@ async function getArraybuffer_fromCanvas(canvas){
     });
 }
 
-// test function
-function getDrewCanvas(image){
-    let canvas = document.createElement('canvas');
+function getMixedCanvas(image, other_canvas = null){
+    let canvas = other_canvas || document.createElement('canvas');
     canvas.width = image.width;
     canvas.height = image.height;
     
-    canvas.getContext('2d').drawImage(image, 0, 0);
+    let context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0);
+    
+    let raw_imagedata = context.getImageData(0, 0, image.width, image.height);
+    let grayscaled_imagedata = getGrayscaledImageData(raw_imagedata);
+    let applied_gradientmap = getGradientMappedImageData(grayscaled_imagedata);
+    context.putImageData(applied_gradientmap, 0, 0);
+    
     return canvas;
 }
 
