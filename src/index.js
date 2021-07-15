@@ -273,7 +273,7 @@ window.addEventListener('load', () => {
     let color_stops = document.getElementsByClassName('gradient-color');
     let updatePreviews = () => {
         updateGradientPreview();
-        updatePreviewResult();
+        if(window.input_images) updatePreviewResult();
     };
     for(let i = 0; i < color_stops.length; ++i){
         color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updatePreviews);
