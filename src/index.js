@@ -215,10 +215,15 @@ function readImageFile(file){
 
 window.addEventListener('load', () => {
     updateGradientPreview();
+    
     let color_stops = document.getElementsByClassName('gradient-color');
+    let updatePreviews = () => {
+        updateGradientPreview();
+        updatePreviewResult();
+    };
     for(let i = 0; i < color_stops.length; ++i){
-        color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updateGradientPreview);
-        color_stops[i].getElementsByClassName('color-stop-point')[0].addEventListener('input', updateGradientPreview);
+        color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updatePreviews);
+        color_stops[i].getElementsByClassName('color-stop-point')[0].addEventListener('input', updatePreviews);
     }
     
     document.getElementById('source-image').addEventListener('change', updateFilelist);
