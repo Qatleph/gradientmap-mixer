@@ -15,22 +15,20 @@
         <div>
             <canvas id="input-gradation" height="1" width="256" style="height: 25px;width: 300px;"></canvas>
             <div>
-                <p class="gradient-color">
-                    Color 
                 <button id="add-colorstop">+</button>
                 <button id="remove-colorstop">-</button>
+            </div>
+            <div id="gradient-parameter">
+                <form class="gradient-color" oninput="point_position.value=stop_point.value">
                     <input type="color" class="color-stop" value="#000000"/>
-                    Point 
-                    <input type="range" class="color-stop-point" min="0.00" max="1.00" step="0.01" value="0.00"/>
-                    <span></span>
-                </p>
-                <p class="gradient-color">
-                    Color 
+                    <input type="range" class="color-stop-point" name="stop_point" min="0.00" max="1.00" step="0.01" value="0.00"/>
+                    <output name="point_position" for="stop_point">0</output>
+                </form>
+                <form class="gradient-color" oninput="point_position.value=stop_point.value">
                     <input type="color" class="color-stop" value="#ffffff"/>
-                    Point 
-                    <input type="range" class="color-stop-point" min="0.00" max="1.00" step="0.01" value="1.00"/>
-                    <span></span>
-                </p>
+                    <input type="range" class="color-stop-point" name="stop_point" min="0.00" max="1.00" step="0.01" value="1.00"/>
+                    <output name="point_position" for="stop_point">1</output>
+                </form>
             </div>
         </div>
         
