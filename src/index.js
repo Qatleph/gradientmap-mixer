@@ -137,8 +137,11 @@ async function saveResultFile(){
             });
         } else {
             let save_link = document.createElement('a');
+            let mixed_image = getMixedCanvas(target_object[filename_keys[0]]);
+            
             save_link.download = filename_keys[0];
-            save_link.href = target_object[filename_keys[0]].src;
+            save_link.href = mixed_image.toDataURL('image/png');
+            
             document.body.appendChild(save_link);
             save_link.click();
             
