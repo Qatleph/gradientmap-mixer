@@ -275,10 +275,22 @@ window.addEventListener('load', () => {
         updateGradientPreview();
         if(window.input_images) updatePreviewResult();
     };
+    let initGradientElements = (root_element) => {
+        root_element.getElementsByClassName('color-stop')[0].addEventListener('input', updatePreviews);
+        root_element.getElementsByClassName('color-stop-point')[0].addEventListener('input', updatePreviews);
+    };
+    
     for(let i = 0; i < color_stops.length; ++i){
-        color_stops[i].getElementsByClassName('color-stop')[0].addEventListener('input', updatePreviews);
-        color_stops[i].getElementsByClassName('color-stop-point')[0].addEventListener('input', updatePreviews);
+        initGradientElements(color_stops[i]);
     }
+    
+    document.getElementById('add-colorstop').addEventListener('click', () => {
+        let new_color_stop = createColorStopElement();
+        initGradientElements(new_color_stop);
+        document.getElementById('gradient-parameter').appendChild(new_color_stop);
+        updateGradientPreview();
+    });
+    document.getElementById('remove-colorstop').addEventListener('click', () => {});
     
     document.getElementById('source-image').addEventListener('change', updateFilelist);
     document.getElementById('input-preview').addEventListener('change', updatePreviewResult);
