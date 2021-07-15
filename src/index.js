@@ -213,6 +213,60 @@ function readImageFile(file){
     });
 }
 
+/**
+ * Create form that contains the color-stop parts:
+ * - Checkbox(for remove checked color-stop)
+ * - Color picker
+ * - Range
+ * - Range value viewer
+ * @returns HTMLformElement
+ */
+function createColorStopElement(){
+    let input_checkbox = document.createElement('input');
+    let property_checkbox = {
+        type: 'checkbox',
+        className: 'item'
+    };
+    Object.assign(input_checkbox, property_checkbox);
+    
+    let input_color = document.createElement('input');
+    let property_color = {
+        type: 'color',
+        className: 'color-stop'
+    };
+    Object.assign(input_color, property_color);
+    
+    let input_range = document.createElement('input');
+    let property_range = {
+        type: 'range',
+        className: 'color-stop-point',
+        name: 'stop_point',
+        min: '0.00',
+        max: '1.00',
+        step: '0.01',
+        value: '0.50'
+    };
+    Object.assign(input_range, property_range);
+    
+    let range_view = document.createElement('output');
+    let property_range_view = {
+        name: 'point_position',
+        for: 'stop_point',
+        innerText: '0.5'
+    };
+    Object.assign(range_view, property_range_view);
+    
+    let result = document.createElement('form');
+    result.className = 'gradient-color';
+    result.addEventListener('input', () => range_view.innerText = input_range.value);
+    result.appendChild(input_checkbox);
+    result.appendChild(input_color);
+    result.appendChild(input_range);
+    result.appendChild(range_view);
+    
+    return result;
+}
+
 window.addEventListener('load', () => {
     updateGradientPreview();
     
