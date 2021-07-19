@@ -48,6 +48,11 @@ function getGrayscaledImageData(imagedata){
     return imagedata;
 }
 
+/**
+ * Composite imageData(pixeldata) with gradient
+ * @param {imageData} imagedata pixel datas to composite with gradient
+ * @returns imageData
+ */
 function getGradientMappedImageData(imagedata){
     let gradient = document.getElementById('input-gradation');
     let gradient_data = gradient.getContext('2d').getImageData(0, 0, gradient.width, gradient.height);
@@ -153,6 +158,11 @@ async function saveResultFile(){
     }
 }
 
+/**
+ * Convert and get the ArrayBuffer for save in zipped file
+ * @param {Canvas} canvas canvas that would convert to ArrayBuffer
+ * @returns ArrayBuffer
+ */
 async function getArraybuffer_fromCanvas(canvas){
     return new Promise((resolve) => {
         canvas.toBlob((blob) => {
@@ -165,6 +175,12 @@ async function getArraybuffer_fromCanvas(canvas){
     });
 }
 
+/**
+ * Generate the composited canvas with gradient
+ * @param {Image} image image that would mix with gradient
+ * @param {Canvas} other_canvas use instead of new canvas if receive other canvas
+ * @returns Canvas
+ */
 function getMixedCanvas(image, other_canvas = null){
     let canvas = other_canvas || document.createElement('canvas');
     canvas.width = image.width;
@@ -199,6 +215,11 @@ async function getAsyncImagesObject(){
     return result;
 }
 
+/**
+ * Read the received file as a Image object asynchronously
+ * @param {File} file image file input
+ * @returns Image
+ */
 function readImageFile(file){
     let reader = new FileReader();
     
@@ -285,7 +306,9 @@ function removeSelectedColorStop(){
     }
 }
 
+// NOTE: All events and behaviours
 window.addEventListener('load', () => {
+    // Initial process
     updateGradientPreview();
     
     let color_stops = document.getElementsByClassName('gradient-color');
@@ -302,6 +325,7 @@ window.addEventListener('load', () => {
         initGradientElements(color_stops[i]);
     }
     
+    // Gradient Add/Remove button
     document.getElementById('add-colorstop').addEventListener('click', () => {
         let new_color_stop = createColorStopElement();
         initGradientElements(new_color_stop);
