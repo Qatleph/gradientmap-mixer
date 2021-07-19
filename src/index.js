@@ -110,7 +110,7 @@ function getGradientColorStops(){
     return result;
 }
 
-// とりあえず画像が単一ならそのまま、複数ならzip化してダウンロードさせるとこまで
+// NOTE: If inputted multiple files, saves in zip, and single input saves image file
 async function saveResultFile(){
     let target_object = window.input_images;
     let filename_keys = Object.keys(target_object);
@@ -118,12 +118,23 @@ async function saveResultFile(){
     if(filename_keys.length){
         if(filename_keys.length > 1){
             let zip = new JSZip();
+            let dialog = document.getElementById('output-wait');
+            let dialog_done = document.getElementById('output-done');
+            let dialog_queuesize = document.getElementById('output-queuesize');
             
+            dialog.showModal();
+            dialog_queuesize.innerText = filename_keys.length;
             for(let i = 0; i < filename_keys.length; ++i){
                 let canvas_tosave = getMixedCanvas(target_object[filename_keys[i]]);
                 let imagefile = await getArraybuffer_fromCanvas(canvas_tosave);
                 zip.file(filename_keys[i], imagefile, {binary: true});
+                
+                dialog_queuesize.innerText = filename_keys.length;
+                dialog_done.innerText = i + 1;
             }
+            dialog_queuesize.innerText = "";
+            dialog_done.innerText = "";
+            dialog.close();
             
             zip.generateAsync({type:"blob"}).then((content) => {
                 let zipurl = URL.createObjectURL(content);
