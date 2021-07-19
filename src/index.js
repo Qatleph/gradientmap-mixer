@@ -317,8 +317,10 @@ window.addEventListener('load', () => {
         if(window.input_images) updatePreviewResult();
     };
     let initGradientElements = (root_element) => {
-        root_element.getElementsByClassName('color-stop')[0].addEventListener('input', updatePreviews);
-        root_element.getElementsByClassName('color-stop-point')[0].addEventListener('input', updatePreviews);
+        root_element.getElementsByClassName('color-stop')[0].addEventListener('input', updateGradientPreview);
+        root_element.getElementsByClassName('color-stop')[0].addEventListener('change', () => { if(window.input_images) updatePreviewResult() });
+        root_element.getElementsByClassName('color-stop-point')[0].addEventListener('input', updateGradientPreview);
+        root_element.getElementsByClassName('color-stop-point')[0].addEventListener('change', () => { if(window.input_images) updatePreviewResult() });
     };
     
     for(let i = 0; i < color_stops.length; ++i){
