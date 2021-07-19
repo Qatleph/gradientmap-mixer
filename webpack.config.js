@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    devtool: 'eval-cheap-module-source-map',
+    // devtool: 'eval-cheap-module-source-map',
     // モードの設定、v4系以降はmodeを指定しないと、webpack実行時に警告が出る
     mode: 'development',
     // エントリーポイントの設定
