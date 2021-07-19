@@ -1,6 +1,6 @@
 {
   "name": "gradientmap-mixer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Created for efficient gradient map composition for a large number of images.  \r (DeepL)",
   "main": "index.js",
   "dependencies": {
